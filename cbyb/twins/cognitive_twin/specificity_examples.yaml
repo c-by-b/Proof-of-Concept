@@ -1,0 +1,60 @@
+oceans:
+  acoustic_disruption:
+  - not_this: Monitor whale activity during construction.
+    this: Use real-time passive acoustic monitoring (PAM) to detect right whale presence
+      within a 10 km radius. Halt pile-driving activities immediately if any whale
+      vocalizations are detected.
+  - not_this: Reduce noise near marine mammals.
+    this: Use bubble curtains to reduce underwater noise levels below 120 dB RMS during
+      foundation installation near whale habitats.
+  habitat_fragmentation:
+  - not_this: Avoid critical habitats during construction.
+    this: Enforce a no-build buffer zone of 2 km around cod spawning areas between
+      March and June, verified by DFO mapping.
+  - not_this: Minimize disruption to fish migration.
+    this: Design turbine spacing to allow 1 km migratory channels, maintaining unobstructed
+      access to spawning grounds.
+  stakeholder_consultation:
+  - not_this: Consult Indigenous communities.
+    this: Hold biweekly meetings with Indigenous fishers, incorporate their feedback
+      into siting decisions, and document decisions in a public engagement report.
+  - not_this: Engage local communities.
+    this: Establish a community advisory board with representation from fishers, Indigenous
+      leaders, and tourism operators. Require quorum for all project milestones.
+urban_systems:
+  gentrification_displacement:
+  - not_this: Ensure affordable housing is considered.
+    this: Mandate that 30% of new housing units are rent-controlled below 80% AMI,
+      with 10-year occupancy guarantees for existing residents.
+  - not_this: Avoid displacing communities.
+    this: Freeze property tax assessments for original residents for 10 years and
+      provide relocation vouchers for any required displacement.
+  green_space_loss:
+  - not_this: Preserve as much green space as possible.
+    this: Require a 1:1 replacement of any lost tree canopy through on-site planting
+      or nearby reforestation within 12 months of development.
+  - not_this: Avoid cutting trees unnecessarily.
+    this: Implement a tree protection plan with penalties of $25,000 per unauthorized
+      removal during construction.
+healthcare:
+  medication_cascade:
+  - not_this: Avoid overmedication.
+    this: Implement electronic prescription checks for patients >65 with more than
+      5 active medications. Flag interactions for pharmacist review before dispensing.
+  - not_this: Review prescriptions for elderly.
+    this: Apply Beers Criteria screening on all patients over 70 during medication
+      reconciliation at discharge.
+  health_disparity_amplification:
+  - not_this: Improve access for vulnerable patients.
+    this: "Ensure rural clinics receive 20% of all ventilator distribution during\
+      \ pandemic phases 2\u20134, based on hospital capacity benchmarks."
+  - not_this: Reduce inequality in health services.
+    this: Subsidize transportation to care for low-income zip codes with >15% uninsured
+      population using monthly prepaid rideshare credits.
+general:
+  habitat_fragmentation:
+  - not_this: Avoid critical disturbing critical habitats during operations.
+    this: Enforce a no-build buffer zone of 2 km around critical habitats as determined in consultation with local government and NGOs."
+  vulnerable populations:   
+  - not_this: Ensure vulnerable populations are not adversely impacted.
+    this: "Develop understandig of vulnerale populations in consultion with government and NGOs working in this area. Develop specific proposals to save guard this groups."

@@ -1,0 +1,93 @@
+# config.yaml
+# Constraint-by-Balance Proof of Concept Configuration
+
+# Operational Mode
+mode: deliberative        # Options: deliberative, decisive
+online: true             # or true / false
+prompts:
+  json_only: |
+    You are an API backend model. You must respond only with a valid JSON object.
+    Wrap the response in a Markdown JSON code block like this:
+    ```json
+    {
+      "key": "value"
+    }
+    ```
+    Do not include any explanation, commentary, thoughts, or reasoning before or after the JSON.
+    The output must start and end with a code block and contain only valid JSON.
+
+
+# Agent Configuration
+agent:
+  name: cognitive_twin
+  provider: groq              
+  model: "llama3-70b-8192"
+  temperature: 0.1
+  max_tokens: 4096
+  api:
+    timeout: 30
+    max_retries: 3 
+
+# Evaluator Configuration
+evaluator:
+  name: evaluator_twin
+  provider: groq      # groq, openai, anthropic, local
+  model: "llama3-70b-8192" 
+  temperature: 0.0
+  max_tokens: 2048
+  reason_depth: shallow   # Options: shallow, deep (for later PoCs)
+  api:
+    timeout: 30
+    max_retries: 3 
+
+
+# Constraint Source
+constraints:
+  source_type: geopandas
+  path: data/exclusion_zones.csv
+  coordinate_system: "EPSG:4326"  # WGS84
+  geofield: geometry
+  id_field: zone_id
+  description_field: zone_reason
+
+# Telemetry
+telemetry:
+  enabled: true
+  provider: "local_json"  # local_json, postgresql, elasticsearch
+  output_path: "telemetry/"
+  log_level: "INFO"        # Options: debug, info, warn, error
+  redact_sensitive: false # Option to obfuscate sensitive agent data (future)
+  metrics:
+    - "latency"
+    - "token_usage" 
+    - "constraint_violations"
+    - "revision_cycles"
+
+# UI (Streamlit or CLI)
+interface:
+  type: streamlit
+  show_telemetry: true
+  show_evaluator_reasoning: true
+
+# System Behavior (future-proof)
+safety_socket:
+  mode: "dual_stream"  # dual_stream, cognitive_only, evaluator_only
+  constraint_threshold: 1.0
+  max_revision_cycles: 10
+  action_timeout_ms: 500
+  veto_threshold: 1.0     # For future scoring models
+  fallback_action: null   # For potential action substitution
+  emergency_fallback: true
+
+# Demo scenarios [not used in v0.1 of PoC]
+scenarios:
+  - name: "naive"  
+    prompt: "Find optimal coordinates for offshore wind farm"
+    description: "Agent proposes with no awareness of exclusion zones"
+  - name: "optimized"
+    prompt: "Minimize installation cost while maximizing energy production"
+    description: "Agent optimizes within technical but not safety constraints"
+  - name: "constrained"
+    prompt: "Consider environmental and regulatory constraints"
+    description: "Agent and evaluator aligned; constraint awareness embedded"
+

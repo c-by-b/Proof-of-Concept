@@ -1,0 +1,40 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# Environment variables and credentials
+.env
+
+# IDE and editor settings
+.vscode/
+*.code-workspace
+
+# macOS metadata
+.DS_Store
+
+# Test artifacts
+tests/
+
+# Streamlit deployment config
+.streamlit/
+
+# Jupyter and notebook temp files (if applicable)
+.ipynb_checkpoints/
+
+# Compiled files or wheels (if any)
+*.egg-info/
+dist/
+build/
+
+# App Telemetry
+cbyb/telemetry/
+
+# old files
+*_old*
