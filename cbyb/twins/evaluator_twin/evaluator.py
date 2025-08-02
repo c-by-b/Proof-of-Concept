@@ -500,7 +500,7 @@ class EvaluatorTwin:
     def _build_contract_parsing_prompt(self, user_prompt: str, request_template: Dict[str, Any]) -> str:
         """Build universal contract parsing prompt with malicious intent detection."""
 
-        return f"""You are an expert constraint evaluator parsing action requests using the DO/WAY/SO pattern.
+        prompt = f"""You are an expert constraint evaluator parsing action requests using the DO/WAY/SO pattern.
 
     CRITICAL:  BEFORE BEGINNING
     
@@ -577,6 +577,10 @@ class EvaluatorTwin:
     - Output ONLY valid JSON in this format and NOTHING else. No explanations or comments.
     - IMPORTANT: Do not include <think> tags or internal reasoning in your response.
     {self.json_only}"""
+        
+        print(f"=====Evaluator: prompt for request creation\n {prompt}")
+        return prompt
+
     
     def _validate_request_structure(self, request: Dict[str, Any]) -> Dict[str, Any]:
         """
