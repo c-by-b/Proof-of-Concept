@@ -9,6 +9,7 @@ Takes parsed contracts and generates creative, problem-solving responses.
 import json
 import os
 import time
+from datetime import datetime
 from typing import Dict, Any
 
 import yaml
@@ -38,7 +39,7 @@ class CognitiveTwin:
         """
         Generate the cognitive_response block from a contract's request.
         """
-        
+
         prompt = self._build_cognitive_prompt(context, dialog_memory)
         start_time = time.time()
 
@@ -130,6 +131,7 @@ class CognitiveTwin:
         constraints = request.get("constraints", [])
         objectives = request.get("objectives", [])
         assumptions = request.get("assumptions_made", [])
+        current_date = datetime.now().strftime("%Y-%m-%d")
 
         prior_action = context.get("proposed_action")
 
@@ -327,6 +329,8 @@ class CognitiveTwin:
     - Geometry MUST be in Well Known Text format
     - Vague proposals will be automatically rejected
     - Do not include <think> tags or internal reasoning in your response.
+    - Today's date is {current_date}. When creating plan steps with YYYY-MM-DD timings, use this as your reference point for "today" and calculate future dates accordingly.
+
 
     {self.json_only}
 

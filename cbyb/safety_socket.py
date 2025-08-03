@@ -47,6 +47,7 @@ class TelemetryEvent:
     timestamp: float
     event_type: str
     duration_ms: float
+    output_tokens: int
     processed: bool
     metadata: Dict[str, Any]
     error_message: Optional[str] = None
@@ -79,7 +80,7 @@ class SafetySocket:
         trace_id = f"trace_{uuid.uuid4().hex[:8]}"
         start_time = time.time()
 
-        self._log_event("process_request_start", 0, True, {
+        self._log_event("process_request_start", 0, 0, True, {
             "prompt": prompt,
             "mode": self.mode,
             "session_id": self.session_id,
@@ -90,10 +91,17 @@ class SafetySocket:
             # STEP 1: get request object from prompt
             parse_start = time.perf_counter()
             self.contract_manager.update_prompt(prompt)
+
+            tokens_before = 0
             parse_result = self._parse_request(prompt)
+            token_usage = self._evaluator_twin.provider.get_token_usage()
+            print(f"\n\n\n=====Safety Socket: Process prompt tokens_usage dict\n{token_usage}")
+            tokens_after = token_usage["output_tokens"]
+            tokens_used = tokens_after - tokens_before
+
             print(f"\n\n\n=====Safety Socket: the parse_result in process_request\n{parse_result}")
             duration = (time.perf_counter() - parse_start) * 1000
-            self._log_event("parse_prompt_to_request", duration, True, {
+            self._log_event("parse_prompt_to_request", duration, tokens_used, True, {
                 "prompt": prompt,
                 "mode": self.mode,
                 "session_id": self.session_id,
@@ -207,7 +215,7 @@ class SafetySocket:
         old_mode = self.mode
         self.mode = mode
         
-        self._log_event("mode_change", 0, True, {
+        self._log_event("mode_change", 0, 0, True, {
             "old_mode": old_mode,
             "new_mode": mode
         })
@@ -238,7 +246,10 @@ class SafetySocket:
         if self._evaluator_twin is None:
             self._evaluator_twin = EvaluatorTwin()
         
+
         response = self._evaluator_twin.parse_user_prompt_to_request(prompt)
+
+        
 
         print(f"\n\n\n=====SAFETY SOCKET: Evaluator response in _parse_request: \n{response}")
         print(f"Type of Evaluator response: {type(response)}")
@@ -286,7 +297,7 @@ class SafetySocket:
             }
 
     def _execute_revision_loop(self, trace_id: str) -> tuple[Dict[str, Any], int]:
-        """Execute the cognitive-evaluator revision loop using ContractManager."""
+        """Execute the cognitive-evaluator revision loop maintaining the contract and dialog record."""
 
         if self._cognitive_twin is None:
             self._cognitive_twin = CognitiveTwin()
@@ -332,7 +343,7 @@ class SafetySocket:
                 break
 
             elif decision == "REVISE":
-                self._log_event("revision_cycle_review", 0, True, {
+                self._log_event("revision_cycle_review", 0, 0, True, {
                     "cycle": revision_count,
                     "trace_id": trace_id
                 })
@@ -358,11 +369,17 @@ class SafetySocket:
             if self._cognitive_twin is None:
                 self._cognitive_twin = CognitiveTwin()
 
+            token_usage = self._cognitive_twin.provider.get_token_usage()
+            tokens_before = token_usage['output_tokens']
             result = self._cognitive_twin.generate_response(cognitive_context, dialog_memory)
+            token_usage = self._cognitive_twin.provider.get_token_usage()
+            tokens_after = token_usage['output_tokens']
+            tokens_used = tokens_after - tokens_before
+
             cognitive_response = result["cognitive_response"]
 
             duration = (time.time() - event_start) * 1000
-            self._log_event("cognitive_response", duration, True, {
+            self._log_event("cognitive_response", duration, tokens_used, True, {
                 "revision_cycle": revision_cycle,
                 "trace_id": trace_id,
                 "mode": self.mode
@@ -372,7 +389,7 @@ class SafetySocket:
 
         except Exception as e:
             duration = (time.time() - event_start) * 1000
-            self._log_event("cognitive_response", duration, False, {
+            self._log_event("cognitive_response", duration, 0, False, {
                 "revision_cycle": revision_cycle,
                 "trace_id": trace_id
             }, str(e))
@@ -397,12 +414,17 @@ class SafetySocket:
             if self._evaluator_twin is None:
                 self._evaluator_twin = EvaluatorTwin()
 
+            token_usage = self._evaluator_twin.provider.get_token_usage()
+            tokens_before = token_usage["output_tokens"]
             result = self._evaluator_twin.evaluate_response(evaluator_context, dialog_memory)
-
+            token_usage = self._evaluator_twin.provider.get_token_usage()
+            tokens_after = token_usage["output_tokens"]
+            tokens_used = tokens_after - tokens_before
+            
             duration = (time.time() - event_start) * 1000
             decision = result.get("decision", "VETO")
 
-            self._log_event("evaluator_decision", duration, True, {
+            self._log_event("evaluator_decision", duration, tokens_used, True, {
                 "decision": decision,
                 "revision_cycle": revision_cycle,
                 "trace_id": trace_id,
@@ -413,7 +435,7 @@ class SafetySocket:
 
         except Exception as e:
             duration = (time.time() - event_start) * 1000
-            self._log_event("evaluator_decision", duration, False, {
+            self._log_event("evaluator_decision", duration, 0, False, {
                 "revision_cycle": revision_cycle,
                 "trace_id": trace_id
             }, str(e))
@@ -497,14 +519,14 @@ class SafetySocket:
                 raise ValueError(f"Unsupported telemetry provider: {self.telemetry_provider}")
             
             # Log successful telemetry save
-            self._log_event("telemetry_saved", 0, True, {
+            self._log_event("telemetry_saved", 0, 0, True, {
                 "provider": self.telemetry_provider,
                 "trace_id": response.trace_id
             })
             print(f"\n\n\n=====Safety Socket: Telemetry saved\n{telemetry_data}")
         except Exception as e:
             # Log telemetry save failure but don't crash
-            self._log_event("telemetry_save_failed", 0, False, {
+            self._log_event("telemetry_save_failed", 0, 0, False, {
                 "provider": self.telemetry_provider,
                 "trace_id": response.trace_id
             }, str(e))
@@ -544,6 +566,7 @@ class SafetySocket:
         self._log_event(
             event_type,
             response.total_duration_ms,
+            0,
             response.processed,
             {
                 "trace_id": response.trace_id,
@@ -556,7 +579,7 @@ class SafetySocket:
             }
         )
 
-    def _log_event(self, event_type: str, duration_ms: float, processed: bool,
+    def _log_event(self, event_type: str, duration_ms: float, tokens_used: int, processed: bool,
                    metadata: Dict[str, Any], error_message: str = None) -> None:
         """Log telemetry event."""
         
@@ -564,6 +587,7 @@ class SafetySocket:
             timestamp=time.time(),
             event_type=event_type,
             duration_ms=duration_ms,
+            output_tokens=tokens_used,
             processed=processed,
             metadata=metadata,
             error_message=error_message

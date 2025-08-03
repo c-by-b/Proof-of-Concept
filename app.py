@@ -49,30 +49,31 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("Constraint-by-Balance: Agentic Safety Viewer")
+st.title("Constraint-by-Balance Proof-of-Concept v0.1")
 
 # Sidebar with optional diagram
 with st.sidebar:
-    st.markdown("### 🤖 About This App")
+    st.markdown("### About This App")
     st.markdown("""
-    This prototype demonstrates the **Constraint-by-Balance (C-by-B)** architecture — an AI safety system that embeds real-time harm evaluation into agent decisions.
+    This architectural proof-of-concept demonstrates the **Constraint-by-Balance (C-by-B)** architecture — an AI safety system that embeds real-time harm evaluation into agent decisions.
 
     - **Prompt**: A scenario needing action  
     - **Cognitive Twin**: Proposes a plan  
     - **Evaluator Twin**: Reviews for safety, ethics, and balance  
-    - **Telemetry**: Shows reasoning steps and timing
+    - **Twins' Contract**: Shows prompt, request and dialog 
+    - **Telemetry** - Shows events in dialog process
+    - **Diagram**: Below is a simplified diagram of the program flow
     """)
 
-    st.markdown("### 📊 Diagram")
     diagram_path = "assets/c-by-b-simple-pic.png"
     if os.path.exists(diagram_path):
         if st.button("🔍 View Full Diagram"):
             st.session_state["show_full_diagram"] = True
-        st.image(diagram_path, caption="Click above to expand", use_container_width=True)
+        st.image(diagram_path, caption="", use_container_width=True)
 
 if st.session_state.get("show_full_diagram"):
     full_img = Image.open(diagram_path)
-    st.image(full_img, use_container_width=True, caption="Complete C-by-B Architecture Flow")
+    st.image(full_img, use_container_width=True, caption="")
     st.button("Close Diagram", on_click=lambda: st.session_state.update({"show_full_diagram": False}))
 
 # Prompt dictionary (fixed hog farm prompt)
@@ -135,7 +136,7 @@ if st.button("Submit"):
     if response.rationale:
         st.info(f"**Rationale:** {response.rationale}")
 
-    st.subheader("Cognitive Twin Contract")
+    st.subheader("Twins' Contract")
     st.markdown("Detail of the final contract between the Twins. Includes the Dialog, including a summary of revision requests from the Evaluator")
     for k, v in response.contract.items():
         with st.expander(k.replace("_", " ").title()):
@@ -147,7 +148,8 @@ if st.button("Submit"):
     col1.metric("Session ID", response.session_id)
     col2.metric("Trace ID", response.trace_id)
     col3.metric("Revision Cycles", response.revision_count)
-    st.metric("Total Duration (ms)", f"{response.total_duration_ms:.2f}")
+    duration_seconds = response.total_duration_ms / 1000
+    st.metric("Total Duration (seconds)", f"{duration_seconds:.2f}")
 
     if response.telemetry:
         with st.expander("Full Telemetry", expanded=False):
