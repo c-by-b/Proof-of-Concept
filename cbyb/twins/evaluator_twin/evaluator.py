@@ -755,7 +755,7 @@ class EvaluatorTwin:
     def _render_chunks(self, keys: list[str], source: dict) -> str:
         """Render multiple harm_knowledge sections into a single prompt string."""
         return "\n\n".join(
-            f"🔹 {key.replace('_', ' ').title()}:\n{render_chunk(key, source)}"
+            f"🔹 {key.replace('_', ' ').title()}:\n{self._render_chunk(key, source)}"
             for key in keys if key in source
         )
     

@@ -32,9 +32,6 @@ if not st.session_state.access_granted:
         st.info("Please enter the access password to continue.")
     st.stop()
 
-# Initialize safety socket
-socket = SafetySocket()
-
 st.set_page_config(page_title="C-by-B Safety UI", layout="centered")
 st.markdown("""
 <style>
@@ -105,6 +102,8 @@ user_prompt = st.text_area("Prompt to submit:", value=default_prompt, height=200
 if st.button("Submit"):
     with st.spinner("Processing via Safety Socket..."):
         try:
+            # Initialize safety socket to avoid caching in streamlit
+            socket = SafetySocket()
             response = socket.process_request(user_prompt)
             outcome_type = socket.categorize_response_for_ui(response)
 

@@ -13,9 +13,6 @@ from typing import Dict, Any, List, Optional, Literal
 import uuid
 import json
 import time
-import os
-
-import yaml
 
 from config import load_config
 from cbyb.twins.evaluator_twin.evaluator import EvaluatorTwin
@@ -77,6 +74,8 @@ class SafetySocket:
         self._telemetry_events: List[TelemetryEvent] = []
 
     def process_request(self, prompt: str) -> SafetyResponse:
+        self.contract_manager.reset_contract()
+        self._telemetry_events = []
         trace_id = f"trace_{uuid.uuid4().hex[:8]}"
         start_time = time.time()
 
@@ -243,8 +242,10 @@ class SafetySocket:
         }
         """
         start = time.time()
+
+        #self._evaluator_twin = EvaluatorTwin()
         if self._evaluator_twin is None:
-            self._evaluator_twin = EvaluatorTwin()
+             self._evaluator_twin = EvaluatorTwin()
         
 
         response = self._evaluator_twin.parse_user_prompt_to_request(prompt)
@@ -366,6 +367,7 @@ class SafetySocket:
         event_start = time.time()
 
         try:
+            #self._cognitive_twin = CognitiveTwin()
             if self._cognitive_twin is None:
                 self._cognitive_twin = CognitiveTwin()
 
@@ -411,6 +413,7 @@ class SafetySocket:
         event_start = time.time()
 
         try:
+            # self._evaluator_twin = EvaluatorTwin()
             if self._evaluator_twin is None:
                 self._evaluator_twin = EvaluatorTwin()
 

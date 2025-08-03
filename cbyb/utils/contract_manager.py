@@ -208,6 +208,7 @@ class ContractManager:
         return self.contract
 
 # Create single shared instance
+# TODO - get rid of this singleton and pass a contract manager as needed
 _manager_instance = ContractManager()
 
 def get_contract_manager():
