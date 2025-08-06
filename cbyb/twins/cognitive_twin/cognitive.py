@@ -16,6 +16,7 @@ import yaml
 
 from config import load_config
 from cbyb.providers.groq import GroqProvider
+from cbyb.providers.ollama import OllamaProvider
 import cbyb.utils.responses_for_offline as offline_response
 from cbyb.utils.contract_manager import get_contract_manager
 from cbyb.utils.json_utils import extract_dict_from_llm_response
@@ -116,6 +117,12 @@ class CognitiveTwin:
         
         if agent_config['provider'] == 'groq':
             return GroqProvider(
+                model=agent_config['model'],
+                temperature=agent_config['temperature'], 
+                max_tokens=agent_config['max_tokens']
+            )
+        elif agent_config['provider'] == 'ollama':
+            return OllamaProvider(
                 model=agent_config['model'],
                 temperature=agent_config['temperature'], 
                 max_tokens=agent_config['max_tokens']

@@ -20,8 +20,10 @@ prompts:
 # Agent Configuration
 agent:
   name: cognitive_twin
-  provider: groq              
-  model: "llama3-70b-8192"
+  # provider: groq              
+  # model: "llama3-70b-8192"
+  provider: ollama              
+  model: "gpt-oss-20B"
   temperature: 0.1
   max_tokens: 4096
   api:
@@ -31,10 +33,12 @@ agent:
 # Evaluator Configuration
 evaluator:
   name: evaluator_twin
-  provider: groq      # groq, openai, anthropic, local
-  model: "llama3-70b-8192" 
-  temperature: 0.0
-  max_tokens: 2048
+  # provider: groq      # groq, openai, anthropic, local
+  # model: "llama3-70b-8192" 
+  provider: ollama              
+  model: "gpt-oss-20B"
+  temperature: 0.1
+  max_tokens: 4096
   reason_depth: shallow   # Options: shallow, deep (for later PoCs)
   api:
     timeout: 30

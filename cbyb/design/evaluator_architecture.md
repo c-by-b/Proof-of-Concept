@@ -195,19 +195,6 @@ When no patterns match (acknowledging that action always causes some harm):
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Harm Knowledge Externalization Strategy
 
 ### Cached Immediate Harm Patterns (Decisive Mode):

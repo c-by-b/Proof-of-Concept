@@ -21,6 +21,7 @@ from shapely import wkt
 
 from config import load_config as load_config
 from cbyb.providers.groq import GroqProvider
+from cbyb.providers.ollama import OllamaProvider
 from cbyb.utils.contract_manager import get_contract_manager
 from cbyb.utils.json_utils import extract_dict_from_llm_response
 import cbyb.utils.responses_for_offline as offline_response
@@ -417,6 +418,12 @@ class EvaluatorTwin:
         
         if eval_config['provider'] == 'groq':
             return GroqProvider(
+                model=eval_config['model'],
+                temperature=eval_config['temperature'], 
+                max_tokens=eval_config['max_tokens']
+            )
+        elif eval_config['provider'] == 'ollama':
+            return OllamaProvider(
                 model=eval_config['model'],
                 temperature=eval_config['temperature'], 
                 max_tokens=eval_config['max_tokens']
