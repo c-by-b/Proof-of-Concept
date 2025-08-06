@@ -222,11 +222,6 @@ DECISIVE_CACHE = {
 - stakeholder fragility maps
 - regulatory frameworks
 
-
-
-
-
-
 ## Model Development Strategy
 
 ### Rapid Prototyping
@@ -270,3 +265,27 @@ This architecture enables a safety-enforcing Evaluator Twin that:
 - Separates logic from data, enabling modular safety enforcement at scale
 - Maintains updateability and auditability without sacrificing performance
 - Supports both solo development constraints and future team scaling needs
+
+# Appendix
+
+## Potential Concerns
+
+### **Latency:**
+    * **Status:** Overstated.
+    * **Mitigation:** The architecture's use of "Decisive Mode" for time-critical actions and "Deliberative Mode" for all others effectively compartmentalizes the issue. Latency is only a factor in the deliberative mode, where it is an acceptable trade-off for a more thorough safety check.
+
+### **Knowledge Base Maintenance & Integrity:**
+    * **Status:** Manageable.
+    * **Mitigation:** While the operational burden is similar to that of a monolithic model, the external knowledge base introduces new architectural and security complexities. This is manageable through robust processes for curation, validation, and a focus on security hardening of the data pipeline and repository itself.
+
+### **Contextual Ambiguity and Interpretation & Limited Capacity for Emergent Reasoning:**
+    * **Status:** Manageable.
+    * **Mitigation:** This downside is effectively neutralized by the use of structured data. By storing external knowledge in semantic graphs (triples designed with an event-based model), the system reduces ambiguity and enhances its ability to reason about novel, emergent harms by traversing the graph and identifying new causal pathways.
+
+### **Security and Access Control:**
+    * **Status:** Key importance to success.
+    * **Mitigation:** This is the most critical concern. The doubled attack surface requires a multi-layered security strategy, including: isolating the knowledge base, cryptographic signing of data, robust access controls and auditing, and leveraging the "Twin Contract" for additional verification.
+
+### **Scalability Challenges:**
+    * **Status:** Manageable.
+    * **Mitigation:** The use of "pruned graphs" corresponding to specific domains and the ability to distribute these graphs across different systems effectively addresses this concern. This approach allows for targeted maintenance, efficient search, and parallel processing, making the system highly scalable.
