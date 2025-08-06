@@ -7,8 +7,7 @@ Used by both Cognitive and Evaluator twins in PoC.
 """
 
 import os
-import time
-from typing import Dict, Any, Optional
+from typing import Dict
 from groq import Groq
 from dotenv import load_dotenv
 

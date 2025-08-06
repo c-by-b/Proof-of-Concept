@@ -493,7 +493,7 @@ class EvaluatorTwin:
             geometries.extend(matches)
         
         if geometries:
-            return f"📍 PROPOSED LOCATIONS:\n" + "\n".join(f"• {geom}" for geom in geometries)
+            return "📍 PROPOSED LOCATIONS:\n" + "\n".join(f"• {geom}" for geom in geometries)
         else:
             return "No specific geometry provided"
 
@@ -715,7 +715,7 @@ class EvaluatorTwin:
                 wkt_string_fixed = wkt_string.replace('POLYLINE', 'LINESTRING')
 
                 # Parse proposed location
-                proposed_geom = wkt.loads(wkt_string)
+                proposed_geom = wkt.loads(wkt_string_fixed)
                     
                 # Check intersection with each exclusion zone
                 for idx, zone_row in zones_gdf.iterrows():

@@ -28,9 +28,6 @@ def extract_dict_from_llm_response_original(response: str):
     except json.JSONDecodeError as e:
         raise json.JSONDecodeError(f"Failed to parse JSON: {e}", json_text, e.pos)
     
-
-
-
 def extract_dict_from_llm_response_old_old(response: str):
     """
     Extract and parse the first valid JSON object from an LLM response.
@@ -54,8 +51,8 @@ def extract_dict_from_llm_response_old_old(response: str):
     try:
         return json.loads(json_text)
     except json.JSONDecodeError as e:
-        print("⚠️ Failed to parse JSON from LLM response.")
-        print("⚠️ Raw candidate JSON:\n", json_text)
+        print("Failed to parse JSON from LLM response.")
+        print("Raw candidate JSON:\n", json_text)
         raise json.JSONDecodeError(f"Failed to parse JSON: {e}", json_text, e.pos)
     
 def extract_dict_from_llm_response_new(response: str):
@@ -80,7 +77,7 @@ def extract_dict_from_llm_response_new(response: str):
     try:
         return json.loads(json_text)
     except json.JSONDecodeError as e:
-        print("⚠️ Failed to parse JSON:")
+        print("Failed to parse JSON:")
         print("---- Raw extracted text ----")
         print(json_text)
         print("---- End of text ----")

@@ -599,6 +599,7 @@ class SafetySocket:
         self._telemetry_events.append(event)
 
     def categorize_response_for_ui(self, response: SafetyResponse) -> UIClassification:
+        # TODO - this break out is not quite right
         if not response.processed:
             return "error"
 

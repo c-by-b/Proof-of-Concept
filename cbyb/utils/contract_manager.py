@@ -57,7 +57,7 @@ class ContractManager:
             return updated_count
 
         except Exception as e:
-            print(f"🔥 Exception in update_revision_count: {e}")
+            print(f"Exception in update_revision_count: {e}")
             raise
 
     def update_prompt(self, prompt: str):

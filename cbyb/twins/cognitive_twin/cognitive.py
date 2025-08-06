@@ -190,7 +190,7 @@ class CognitiveTwin:
             """
 
             # -----------------------------------------------
-            # 🔄 REVISION MODE
+            # REVISION MODE
             # -----------------------------------------------
             if revision_requests:
 
@@ -266,7 +266,7 @@ class CognitiveTwin:
     - Geometry MUST be in Well Known Text format"""
 
         # -----------------------------------------------
-        # 🆕 INITIAL DRAFT MODE
+        # INITIAL DRAFT MODE
         # -----------------------------------------------
         else:
             schema_block = """
