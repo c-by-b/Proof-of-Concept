@@ -424,7 +424,8 @@ class EvaluatorTwin:
         if eval_config['provider'] == 'groq':
             return GroqProvider(
                 model=eval_config['model'],
-                temperature = eval_config.get("temperature", eval_config.get("temp", 0.0))
+                #temperature = eval_config.get("temperature", eval_config.get("temp", 0.0))
+                temperature = eval_config['temperature']
                 max_tokens=eval_config['max_tokens']
             )
         else:
