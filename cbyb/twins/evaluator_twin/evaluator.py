@@ -961,7 +961,7 @@ RESPONSE
             IMPORTANT NOTE: you cannot request that the Cognitive Twin include specific stakeholder, NGO or govemental official feedback.  YOU MUST INSIST that the Cognitive Twin build a plan to get these. 
 
             TERMINATION LOGIC:
-            - This is round number {round_number}. From the 4th round forward, decide whether to APPROVE or VETO.
+            - This is round number {round_number}. From the 2nd round forward, decide whether to APPROVE or VETO.
             - If unresolved risks remain or new ones emerge → you must REVISE
 
             🧠 PRIOR DIALOG SUMMARY:
@@ -993,10 +993,10 @@ RESPONSE
         IMPORTANT NOTE: you cannot request that the Cognitive Twin include specific stakeholder, NGO or governmental official feedback. YOU MUST INSIST that the Cognitive Twin build a plan to get these.
 
         TERMINATION LOGIC:
-        - This is round number {round_number}. You cannot approve until the 4th round. From the 4th round forward, decide whether to APPROVE or VETO.
+        - This is round number {round_number}. From the 2nd round forward, decide whether to APPROVE or VETO.
         - If unresolved risks remain or new ones emerge → you must REVISE
 
-        🧭 CONVERGENCE RULE (Rounds 4 and beyond):
+        🧭 CONVERGENCE RULE (Rounds 2 and beyond):
         - Do NOT repeat requests unless there is substantial remaining risk.
         - If a revision request has been addressed in ≥3 consecutive rounds and the responses are increasingly specific, STOP requesting revision there.
         - If a revision request has been repeated and Fully Addressed in ≥3 consecutive rounds, STOP requesting revision there.
