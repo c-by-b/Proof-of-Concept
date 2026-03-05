@@ -961,7 +961,7 @@ RESPONSE
             IMPORTANT NOTE: you cannot request that the Cognitive Twin include specific stakeholder, NGO or govemental official feedback.  YOU MUST INSIST that the Cognitive Twin build a plan to get these. 
 
             TERMINATION LOGIC:
-            - This is round number {round_number}. You cannot approve until the 4th round. From the 4th round forward, decide whether to APPROVE or VETO.
+            - This is round number {round_number}. From the 4th round forward, decide whether to APPROVE or VETO.
             - If unresolved risks remain or new ones emerge → you must REVISE
 
             🧠 PRIOR DIALOG SUMMARY:
