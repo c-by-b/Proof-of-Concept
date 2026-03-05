@@ -117,7 +117,7 @@ class CognitiveTwin:
         if agent_config['provider'] == 'groq':
             return GroqProvider(
                 model=agent_config['model'],
-                temperature = eval_config['temperature'],
+                temperature = agent_config['temperature'],
                 #temperature = agent_config.get("temperature", agent_config.get("temp", 0.7))
                 max_tokens=agent_config['max_tokens']
             )
