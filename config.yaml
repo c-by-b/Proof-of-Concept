@@ -21,7 +21,7 @@ prompts:
 agent:
   name: cognitive_twin
   provider: groq              
-  model: "qwen/qwen3-32b"
+  model: "llama-3.3-70b-versatile"
   temperature: 0.1
   max_tokens: 4096
   api:
@@ -32,7 +32,7 @@ agent:
 evaluator:
   name: evaluator_twin
   provider: groq      # groq, openai, anthropic, local
-  model: "qwen/qwen3-32b" 
+  model: "llama-3.3-70b-versatile" 
   temperature: 0.0
   max_tokens: 2048
   reason_depth: shallow   # Options: shallow, deep (for later PoCs)
