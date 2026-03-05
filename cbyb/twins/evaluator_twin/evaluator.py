@@ -211,9 +211,12 @@ class EvaluatorTwin:
             response = self.provider.generate(prompt)
 
             try:
-                parsed = json.loads(response)
-            except json.JSONDecodeError as e:
-                print("JSON parse error:\n", response)
+                if not response or not str(response).strip():
+                    raise ValueError("Evaluator returned empty response; expected JSON.")
+
+                parsed = extract_dict_from_llm_response(response)
+            except Exception as e:
+                print("JSON parse error:\n", repr(response))
                 raise e
             # Append to memory
             dialog_summary = copy.deepcopy(dialog_history.get('dialog_summary', []))
@@ -314,9 +317,12 @@ class EvaluatorTwin:
             response = self.provider.generate(prompt)
 
             try:
-                parsed = json.loads(response)
-            except json.JSONDecodeError as e:
-                print("JSON parse error:\n", response)
+                if not response or not str(response).strip():
+                    raise ValueError("Evaluator returned empty response; expected JSON.")
+
+                parsed = extract_dict_from_llm_response(response)
+            except Exception as e:
+                print("JSON parse error:\n", repr(response))
                 raise e
             # Append to memory
             dialog_summary = copy.deepcopy(dialog_history.get('dialog_summary', []))
