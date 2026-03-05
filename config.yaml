@@ -29,7 +29,7 @@ agent:
     max_retries: 3 
 
 # Evaluator Configuration
-eval:
+evaluator:
   name: evaluator_twin
   provider: groq      # groq, openai, anthropic, local
   model: "qwen/qwen3-32b" 
